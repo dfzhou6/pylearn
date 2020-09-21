@@ -2,10 +2,30 @@
 
 # 支持多继承
 
-class Student(object):
+class Runnable(object):
+    def __init__(self, content):
+        self.run_content = content
+
+    def run(self):
+        print("run {} {}".format(self.ADDRESS, self.run_content))
+
+class Flyable(object):
+    def __init__(self, content):
+        self.fly_content = content
+
+    def fly(self):
+        print("fly {} {}".format(self.ADDRESS, self.fly_content))      
+
+class Student(Runnable, Flyable):
     ADDRESS = "Shenzhen"
 
     def __init__(self, name, score, age):
+        """
+        多继承的调用方式
+        """
+        # super(Student, self).__init__("hello_run")
+        Runnable.__init__(self, "hello_run")
+        Flyable.__init__(self, "hello_fly")
         self.__name = name # 不能直接被访问，可用特殊方式访问，比如s._Student__name
         self.score = score
         self.__age = age
@@ -47,6 +67,10 @@ setattr(s1, "hello", "okok")
 print(getattr(s1, "hello"))
 print(s1.hello)
 print(Student.ADDRESS)
-
 s1.age = 3
 print(s1.age)
+s1.run()
+s1.fly()
+print(isinstance(s1, Flyable))
+print(isinstance(s1, Student))
+print(type(s1))
